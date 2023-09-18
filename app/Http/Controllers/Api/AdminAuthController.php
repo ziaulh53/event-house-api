@@ -11,36 +11,40 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminAuthController extends Controller
 {
-    public function adminSignup(AdminSignup $request){
+    public function adminSignup(AdminSignup $request)
+    {
         $data = $request->validated();
-        /** @var Admin $admin */
+        /** @var  \App\Models\Admin $admin */
+
         Admin::create([
-            'name'=> $data['name'],
-            'email'=> $data['email'],
-            'role'=> $data['role'],
-            'password'=> bcrypt($data['password']),
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'role' => 'super_admin',
+            'password' => bcrypt($data['password']),
         ]);
-        return response(['success'=>true, 'msg'=>'New admin added']);
+        return response(['success' => true]);
     }
-    public function adminLogin(AdminLogin $request){
+    public function adminLogin(AdminLogin $request)
+    {
         $credential = $request->validated();
-        if (!Auth::attempt($credential)) {
+        if (!Auth::guard('admin')->attempt($credential)) {
             return response([
                 'message' => 'Email or Password is incorrect',
                 'success' => false
             ], 422);
         }
-        /** @var Admin $admin */
-        $admin  = Auth::user();
-        $token = $admin->createToken('main')->plainTextToken;
+        /** @var Admin $user */
+        $user  = Auth::guard('admin')->user();
+        $token = $user->createToken('main')->plainTextToken;
         $success = true;
-        return response(compact('admin', 'token', 'success'));
+        return response(compact('user', 'token', 'success'));
     }
 
-    public function adminLogout(AdminLogout $request){
-         /** @var Admin $admin */
-         $admin = $request->user();
-         $admin->currentAccessToken()->delete;
-         return response(['success'=>true]);
+    public function adminLogout(AdminLogout $request)
+    {
+        /** @var Admin $user */
+        $user = $request->user();
+        $user->currentAccessToken()->delete;
+        return response(['success'=>true]);
     }
 }
