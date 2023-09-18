@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AdminAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +27,10 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 
-Route::post('/signup-admin', [AuthController::class, 'signup']);
-Route::post('/login-admin', [AuthController::class, 'login']);
+// admin route
+Route::post('/signup-admin', [AdminAuthController::class, 'adminSignup']);
+Route::post('/login-admin', [AdminAuthController::class, 'adminLogin']);
+
+//user route
+Route::post('/signup', [AuthController::class, 'userSignup']);
+Route::post('/login', [AuthController::class, 'userLogin']);

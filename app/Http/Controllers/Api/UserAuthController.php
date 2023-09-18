@@ -7,6 +7,7 @@ use App\Http\Requests\UserLogin;
 use App\Http\Requests\UserLogout;
 use App\Http\Requests\UserSignup;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserAuthController extends Controller
 {
@@ -22,10 +23,24 @@ class UserAuthController extends Controller
         return response(['success'=>true, 'msg'=>'Registration Successfully']);
     }
     public function userLogin(UserLogin $request){
-           
+        $credential = $request->validated();
+        if (!Auth::attempt($credential)) {
+            return response([
+                'message' => 'Email or Password is incorrect',
+                'success' => false
+            ], 422);
+        }
+         /** @var User $user */
+         $user  = Auth::user();
+         $token = $user->createToken('main')->plainTextToken;
+         $success = true;
+         return response(compact('user', 'token', 'success'));
     }
 
     public function userLogout(UserLogout $request){
-
+         /** @var User $user */
+         $user = $request->user();
+         $user->currentAccessToken()->delete;
+         return response(['success'=>true]);
     }
 }
