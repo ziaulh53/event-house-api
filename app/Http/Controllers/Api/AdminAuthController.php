@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminLogin;
 use App\Http\Requests\AdminSignup;
 use App\Models\Admin;
-use Illuminate\Http\Request;
 
 class AdminAuthController extends Controller
 {
@@ -22,7 +21,7 @@ class AdminAuthController extends Controller
         return response(['success'=>true, 'msg'=>'New admin added']);
     }
     public function adminLogin(AdminLogin $request){
-       
+           
     }
 
     public function adminLogout(AdminLogin $request){
