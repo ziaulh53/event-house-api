@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\AdminAuthController;
+use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\FileUploadController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +22,14 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
     Route::post('/admin/logout', [AdminAuthController::class, 'adminLogout']);
+
+
+    Route::post('/file-upload', [FileUploadController::class, 'storeUploads']);
+
+    Route::middleware(['role:super_admin'])->group(function () {
+        // Route::post('/admin/signup', [AdminAuthController::class, 'adminSignup']);
+        Route::apiResource('/admins', AdminController::class);
+    });
     Route::middleware(['role:seller'])->group(function () {
     });
     Route::middleware(['role:buyer'])->group(function () {
@@ -29,7 +39,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 // admin route
-Route::post('/admin/signup', [AdminAuthController::class, 'adminSignup']);
 Route::post('/admin/login', [AdminAuthController::class, 'adminLogin']);
 
 //user route

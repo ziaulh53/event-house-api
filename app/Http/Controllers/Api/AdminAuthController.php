@@ -19,7 +19,7 @@ class AdminAuthController extends Controller
         Admin::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'role' => 'super_admin',
+            'role' => 'admin',
             'password' => bcrypt($data['password']),
         ]);
         return response(['success' => true]);
