@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AdminAuthController;
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\FileUploadController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,9 +27,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/file-upload', [FileUploadController::class, 'storeUploads']);
 
+    Route::get('/category', [CategoryController::class, 'index']);
     Route::middleware(['role:super_admin'])->group(function () {
-        // Route::post('/admin/signup', [AdminAuthController::class, 'adminSignup']);
         Route::apiResource('/admins', AdminController::class);
+        Route::post('/category', [CategoryController::class, 'store']);
+        Route::put('/category/{id}', [CategoryController::class, 'update']);
+        Route::delete('/category/{id}', [CategoryController::class, 'destroy']);
     });
     Route::middleware(['role:seller'])->group(function () {
     });

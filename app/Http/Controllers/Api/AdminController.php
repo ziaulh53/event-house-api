@@ -29,8 +29,10 @@ class AdminController extends Controller
     {
         $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
-        $admin = Admin::create($data);
-        return response(new AdminResource($admin), 201);
+        $data['role'] = 'admin';
+        $data['avatar'] = $request['avatar'];
+        Admin::create($data);
+        return response(['success'=>true, 'msg'=>'New Admin added'], 201);
     }
 
     /**
@@ -53,7 +55,7 @@ class AdminController extends Controller
         }
         $admin->update($data);
 
-        return response(['admin' => new AdminResource($admin), 'success' => true], 201);
+        return response(['msg' => 'Admin updated', 'success' => true], 201);
     }
 
     /**
@@ -62,6 +64,6 @@ class AdminController extends Controller
     public function destroy(Admin $admin)
     {
         $admin->delete();
-        return response(['message' => 'Deleted successfullu', 'success' => true], 201);
+        return response(['msg' => 'Deleted successfully', 'success' => true], 201);
     }
 }
