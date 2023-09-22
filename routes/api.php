@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\Api\AdminAuthController;
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\AdminPasswordResetController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\FileUploadController;
+use App\Http\Controllers\Api\UserAuthController;
+use App\Http\Controllers\TestEmailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,7 +47,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // admin route
 Route::post('/admin/login', [AdminAuthController::class, 'adminLogin']);
-
+Route::post('/forgot-password', [AdminPasswordResetController::class, 'forgotPassword'])->name('password.email');
+Route::post('/password-reset', [AdminPasswordResetController::class, 'resetPassword'])->name('password.reset');
 //user route
-Route::post('/signup', [AuthController::class, 'userSignup']);
-Route::post('/login', [AuthController::class, 'userLogin']);
+Route::post('/signup', [UserAuthController::class, 'userSignup']);
+Route::post('/login', [UserAuthController::class, 'userLogin']);
+// Route::post('/password/forgot', [UserAuthController::class, 'userResetPasswordRequest']);

@@ -7,20 +7,16 @@ use App\Http\Requests\UserLogin;
 use App\Http\Requests\UserLogout;
 use App\Http\Requests\UserSignup;
 use App\Models\User;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 
 class UserAuthController extends Controller
 {
     public function userSignup(UserSignup $request){
         $data = $request->validated();
         /** @var User $user */
-        User::create([
-            'name'=> $data['name'],
-            'email'=> $data['email'],
-            'phone'=> $data['phone'],
-            'role'=> $data['role'],
-            'password'=> bcrypt($data['password']),
-        ]);
+        User::create($data);
         return response(['success'=>true, 'msg'=>'Registration Successfully']);
     }
     public function userLogin(UserLogin $request){
@@ -44,4 +40,13 @@ class UserAuthController extends Controller
          $user->currentAccessToken()->delete;
          return response(['success'=>true]);
     }
+
+    public function userResetPasswordRequest(Request $request){
+        /** @var User $user */
+        $user = User::where('email', $request['email'])->first();
+        if (!$user) {
+            return response(['success'=>false, 'msg'=>'User not found'], 404);
+        }
+        Password::sendResetLink($user->email);
+   }
 }

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminForgetPasswordRequests;
 use App\Http\Requests\AdminLogin;
 use App\Http\Requests\AdminLogout;
 use App\Http\Requests\AdminSignup;
 use App\Models\Admin;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 
 class AdminAuthController extends Controller
 {
@@ -47,4 +50,15 @@ class AdminAuthController extends Controller
         $user->currentAccessToken()->delete;
         return response(['success'=>true]);
     }
+
+    public function adminResetPasswordRequest(AdminForgetPasswordRequests $request){
+        /** @var Admin $user */
+        $data = $request->validated();
+        $admin = Admin::where('email', $data['email'])->first();
+        if (!$admin) {
+            return response(['success'=>false, 'msg'=>'User not found'], 404);
+        }
+        // echo $admin;
+        Password::sendResetLink(['email'=>$admin->email]);
+   }
 }
