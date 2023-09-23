@@ -22,7 +22,7 @@ class AdminPasswordResetController extends Controller
             return response()->json(['error' => 'User not found.'], 404);
         }
 
-        Password::sendResetLink($request->only('email'));
+        Password::broker('admins')->sendResetLink($request->only('email'));
 
         return response(['success'=>true, 'msg'=>'Password reset link sent successfully.'], 201);
     }
@@ -31,10 +31,10 @@ class AdminPasswordResetController extends Controller
     {
         $request->validate([
             'token' => 'required',
-            'password' => 'required|confirmed',
+            'password' => 'required',
         ]);
 
-        $admin = Password::reset($request->only('email', 'password', 'token'), function ($admin, $password) {
+        $admin =  Password::broker('admins')->reset($request->only('email', 'password', 'token'), function (Admin $admin, $password) {
             $admin->password = Hash::make($password);
             $admin->save();
         });

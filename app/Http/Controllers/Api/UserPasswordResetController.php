@@ -22,19 +22,19 @@ class UserPasswordResetController extends Controller
             return response()->json(['error' => 'User not found.'], 404);
         }
 
-        Password::sendResetLink($request->only('email'));
+        Password::broker('users')->sendResetLink($request->only('email'));
 
-        return response()->json(['message' => 'Password reset link sent successfully.']);
+        return response(['success'=>true, 'msg'=>'Password reset link sent successfully.'], 201);
     }
 
     public function resetPassword(Request $request)
     {
         $request->validate([
             'token' => 'required',
-            'password' => 'required|confirmed',
+            'password' => 'required',
         ]);
 
-        $user = Password::reset($request->only('email', 'password', 'token'), function ($user, $password) {
+        $user = Password::broker('users')->reset($request->only('email', 'password', 'token'), function (User $user, $password) {
             $user->password = Hash::make($password);
             $user->save();
         });
