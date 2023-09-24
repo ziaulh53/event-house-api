@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\FileUploadController;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserPasswordResetController;
+use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\TestEmailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::middleware(['role:super_admin'])->group(function () {
+    Route::middleware(['role:super_admin,admin'])->group(function () {
+        Route::apiResource('/users', UsersController::class);
         Route::apiResource('/admins', AdminController::class);
         Route::post('/category', [CategoryController::class, 'store']);
         Route::put('/category/{id}', [CategoryController::class, 'update']);
@@ -42,7 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // both auth routers
     Route::post('/file-upload', [FileUploadController::class, 'storeUploads']);
     Route::get('/category', [CategoryController::class, 'index']);
- 
+
     Route::middleware(['role:seller'])->group(function () {
     });
     Route::middleware(['role:buyer'])->group(function () {
