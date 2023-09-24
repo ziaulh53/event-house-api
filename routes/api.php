@@ -8,7 +8,6 @@ use App\Http\Controllers\Api\FileUploadController;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserPasswordResetController;
 use App\Http\Controllers\Api\UsersController;
-use App\Http\Controllers\TestEmailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,7 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [UserAuthController::class, 'userLogout']);
 
 
-    // both auth routers
+    // for all users and admin auth routers
     Route::post('/file-upload', [FileUploadController::class, 'storeUploads']);
     Route::get('/category', [CategoryController::class, 'index']);
 
