@@ -23,9 +23,9 @@ class UserAuthController extends Controller
         $credential = $request->validated();
         if (!Auth::attempt($credential)) {
             return response([
-                'message' => 'Email or Password is incorrect',
+                'msg' => 'Email or Password is incorrect',
                 'success' => false
-            ], 422);
+            ], 200);
         }
          /** @var User $user */
          $user  = Auth::user();

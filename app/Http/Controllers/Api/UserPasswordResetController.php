@@ -12,6 +12,7 @@ class UserPasswordResetController extends Controller
 {
     public function forgotPassword(Request $request)
     {
+        
         $request->validate([
             'email' => 'required|email',
         ]);
@@ -43,6 +44,6 @@ class UserPasswordResetController extends Controller
             return response()->json(['error' => 'Invalid token.'], 401);
         }
 
-        return response()->json(['message' => 'Password reset successfully.']);
+        return response(['success'=>true, 'msg'=>'Password reset successfully.']);
     }
 }
