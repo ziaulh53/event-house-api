@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EmailChangeRequest;
 use App\Http\Requests\UserLogin;
 use App\Http\Requests\UserLogout;
 use App\Http\Requests\UserSignup;
@@ -10,6 +11,7 @@ use App\Http\Requests\UserUpdate;
 use App\Models\User;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
 class UserAuthController extends Controller
@@ -44,6 +46,19 @@ class UserAuthController extends Controller
          /** @var User $user */
         $user->update($data);
         return response(['success'=>true, 'msg'=>'Profile info updated']);
+    }
+
+    public function userUpdateEmail(EmailChangeRequest $request)
+    {
+        $user = auth()->user();
+        if(!$user || !Hash::check($request['password'], $user->password))
+        {
+            return response(['success'=>false, 'msg'=>'Password is incorrect']);
+        }
+        $user->email = $request['email'];
+         /** @var User $user */
+        $user->update();
+        return response(['success'=>true, 'msg'=>'Email has been changed!']);
     }
 
     public function userLogout(UserLogout $request)
