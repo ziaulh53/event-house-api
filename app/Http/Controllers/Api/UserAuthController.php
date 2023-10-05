@@ -61,6 +61,19 @@ class UserAuthController extends Controller
         return response(['success'=>true, 'msg'=>'Email has been changed!']);
     }
 
+    public function userUpdatePassword (EmailChangeRequest $request)
+    {
+        $user = auth()->user();
+        if(!$user || !Hash::check($request['currentPassword'], $user->password))
+        {
+            return response(['success'=>false, 'msg'=>'Password is incorrect']);
+        }
+        $user->password = Hash::make($request['newPassword']);
+         /** @var User $user */
+        $user->update();
+        return response(['success'=>true, 'msg'=>'Password has been updated!']);
+    }
+
     public function userLogout(UserLogout $request)
     {
         /** @var User $user */

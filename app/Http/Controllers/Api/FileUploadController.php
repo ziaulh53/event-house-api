@@ -11,6 +11,6 @@ class FileUploadController extends Controller
     public function storeUploads(Request $request)
     {
         $imageUrl =  Cloudinary::upload($request->file('file')->getRealPath())->getSecurePath();
-        return response(['url' => $imageUrl]);
+        return response(['url' => $imageUrl, 'success'=>true]);
     }
 }

@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware(['role:seller,buyer'])->group(function () {
         Route::put('/update-profile/{id}', [UserAuthController::class, 'userUpdate']);
         Route::put('/update-email/{id}', [UserAuthController::class, 'userUpdateEmail']);
+        Route::put('/update-password/{id}', [UserAuthController::class, 'userUpdatePassword']);
         Route::post('/logout', [UserAuthController::class, 'userLogout']);
     });
 
