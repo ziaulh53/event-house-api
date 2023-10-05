@@ -43,7 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // for all users and admin auth routers
     Route::post('/file-upload', [FileUploadController::class, 'storeUploads']);
     Route::get('/category', [CategoryController::class, 'index']);
-    Route::put('/update-profile', [UserAuthController::class, 'update']);
+    Route::put('/update-profile/{id}', [UserAuthController::class, 'update']);
 
     Route::middleware(['role:seller'])->group(function () {
     });
