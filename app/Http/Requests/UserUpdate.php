@@ -24,6 +24,7 @@ class UserUpdate extends FormRequest
         return [
             'name'=>'required|string',
             'phone'=>'required',
+            'avatar'=>'string',
         ];
     }
 }
