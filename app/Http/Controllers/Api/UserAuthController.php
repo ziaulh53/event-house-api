@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmailChangeRequest;
+use App\Http\Requests\PasswordChangeRequest;
 use App\Http\Requests\UserLogin;
 use App\Http\Requests\UserLogout;
 use App\Http\Requests\UserSignup;
@@ -61,7 +62,7 @@ class UserAuthController extends Controller
         return response(['success'=>true, 'msg'=>'Email has been changed!']);
     }
 
-    public function userUpdatePassword (EmailChangeRequest $request)
+    public function userUpdatePassword (PasswordChangeRequest $request)
     {
         $user = auth()->user();
         if(!$user || !Hash::check($request['currentPassword'], $user->password))
