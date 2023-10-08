@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AdminPasswordResetController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\FileUploadController;
+use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserPasswordResetController;
 use App\Http\Controllers\Api\UsersController;
@@ -50,6 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/category', [CategoryController::class, 'index']);
 
     Route::middleware(['role:seller'])->group(function () {
+        Route::post('/service', [ServiceController::class, 'createService']);
     });
     Route::middleware(['role:buyer'])->group(function () {
     });

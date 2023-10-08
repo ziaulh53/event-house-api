@@ -31,14 +31,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        // 
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateCategoryRequest $request, string $id)
