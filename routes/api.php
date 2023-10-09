@@ -70,3 +70,7 @@ Route::post('/signup', [UserAuthController::class, 'userSignup']);
 Route::post('/login', [UserAuthController::class, 'userLogin']);
 Route::post('/forgot-password', [UserPasswordResetController::class, 'forgotPassword'])->name('password.email');
 Route::post('/reset-password', [UserPasswordResetController::class, 'resetPassword'])->name('password.reset');
+
+
+// public route
+Route::get('/service', [ServiceController::class, 'fetchServices']);

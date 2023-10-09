@@ -16,8 +16,8 @@ class Service extends Model
     protected $fillable = [
         'title',
         'images',
-        'category',
-        'user',
+        'category_id',
+        'user_id',
     ];
 
     public function category()

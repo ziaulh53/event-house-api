@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->json('images')->nullable();
-            $table->integer('category')->unsigned();
-            $table->integer('user')->unsigned();
-            $table->foreign('category')->references('id')->on('categories');
-            $table->foreign('user')->references('id')->on('users');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('category_id');
             $table->integer('totalRating')->default(0);
             $table->timestamps();
+
+            // Define foreign key constraints
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CreateServiceRequest extends FormRequest
 {
@@ -24,7 +25,7 @@ class CreateServiceRequest extends FormRequest
         return [
             'title'=> 'required|string',
             'images'=>'required|array',
-            'category'=>'required',
+            'category_id'=>'required'
         ];
     }
 }
