@@ -12,16 +12,6 @@ use App\Http\Controllers\Api\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
 Route::middleware('auth:sanctum')->group(function () {
     // admin auth routers
@@ -52,6 +42,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware(['role:seller'])->group(function () {
         Route::post('/service', [ServiceController::class, 'createService']);
+        Route::get('/my-service', [ServiceController::class, 'getUserService']);
+        Route::put('/my-service/{id}', [ServiceController::class, 'updateMyService']);
+        Route::delete('/my-service/{id}', [ServiceController::class, 'deleteMyService']);
     });
     Route::middleware(['role:buyer'])->group(function () {
     });
