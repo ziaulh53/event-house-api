@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AdminAuthController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AdminPasswordResetController;
+use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\FileUploadController;
 use App\Http\Controllers\Api\ServiceController;
@@ -25,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/category', [CategoryController::class, 'store']);
         Route::put('/category/{id}', [CategoryController::class, 'update']);
         Route::delete('/category/{id}', [CategoryController::class, 'destroy']);
+        Route::post('/banner', [BannerController::class, 'createBanner']);
     });
 
     // user auth routers
@@ -67,3 +69,4 @@ Route::post('/reset-password', [UserPasswordResetController::class, 'resetPasswo
 
 // public route
 Route::get('/service', [ServiceController::class, 'fetchServices']);
+Route::get('/banner', [BannerController::class, 'fetchBanners']);
