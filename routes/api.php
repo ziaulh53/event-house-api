@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AdminPasswordResetController;
 use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\FileUploadController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\UserAuthController;
@@ -42,13 +43,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/file-upload', [FileUploadController::class, 'storeUploads']);
     Route::get('/category', [CategoryController::class, 'index']);
 
+    // only for seller
     Route::middleware(['role:seller'])->group(function () {
         Route::post('/service', [ServiceController::class, 'createService']);
         Route::get('/my-service', [ServiceController::class, 'getUserService']);
         Route::put('/my-service/{id}', [ServiceController::class, 'updateMyService']);
         Route::delete('/my-service/{id}', [ServiceController::class, 'deleteMyService']);
     });
+
+    //only for buyers
     Route::middleware(['role:buyer'])->group(function () {
+        Route::get('/favourite', [FavouriteController::class, 'fetchFavourites']);
+        Route::post('/favourite', [FavouriteController::class, 'addFavourite']);
+        Route::delete('/favourite/{id}', [FavouriteController::class, 'deleteFavourite']);
     });
 });
 
@@ -56,6 +63,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // admin route
 Route::post('/admin/login', [AdminAuthController::class, 'adminLogin']);
+// Route::post('/admin/signup', [AdminAuthController::class, 'adminSignup']);
 Route::post('/admin/forgot-password', [AdminPasswordResetController::class, 'forgotPassword'])->name('password.email');
 Route::post('/admin/reset-password', [AdminPasswordResetController::class, 'resetPassword'])->name('password.reset');
 
