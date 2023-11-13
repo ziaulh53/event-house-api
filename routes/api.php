@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\FileUploadController;
+use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserPasswordResetController;
@@ -21,6 +22,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    Route::middleware(['role:super_admin'])->group(function () {
+        // plan
+        Route::post('/admin/create-plan', [PlanController::class, 'createPlan']);
+        Route::get('/admin/plans', [PlanController::class, 'fetchPlans']);
+        Route::delete('/admin/delete-plan/{id}', [PlanController::class, 'deletePlan']);
+    });
+   
     Route::middleware(['role:super_admin,admin'])->group(function () {
         Route::apiResource('/users', UsersController::class);
         Route::apiResource('/admins', AdminController::class);
