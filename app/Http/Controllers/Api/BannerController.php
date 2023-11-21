@@ -15,13 +15,13 @@ class BannerController extends Controller
     }
     public function createBanner(Request $request)
     {
-        $banner = Banner::find(1);
-        if (isset($request['banners'])) {
-            $data['banners'] = json_encode($request['banners']);
-            $banner->update($data);
-            return response(['success' => true, 'msg' => 'Banner Updated']);
-        } else {
-            return response(['success' => false, 'msg' => 'Banners are not provided!']);
+        $banner = Banner::find(1); 
+        $data['banners'] = json_encode($request['banners']);
+        if(!$banner){
+            Banner::create($data);
+            return response(['success'=>true, 'msg'=>'Updated']);
         }
+        $banner->update($data);
+        return response(['success'=>true,  'msg'=>'Updated']);
     }
 }

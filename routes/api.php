@@ -46,7 +46,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [UserAuthController::class, 'userLogout']);
     });
 
-
     // for all users and admin auth routers
     Route::post('/file-upload', [FileUploadController::class, 'storeUploads']);
     Route::get('/category', [CategoryController::class, 'index']);
