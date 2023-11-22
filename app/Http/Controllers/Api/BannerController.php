@@ -10,8 +10,12 @@ class BannerController extends Controller
 {
     public function fetchBanners()
     {
-        $banners =  Banner::query()->first();
-        return response(['success' => true, 'banners' => json_decode($banners->banners)]);
+        $getBanners =  Banner::query()->first();
+        $banners = [];
+        if($getBanners){
+            $banners = json_decode($getBanners['banners']);
+        }
+        return response(['success' => true, 'banners' => $banners]);
     }
     public function createBanner(Request $request)
     {
